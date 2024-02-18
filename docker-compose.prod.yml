@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=notesapidb
+      - POSTGRES_USER=notesapiuser
+      - POSTGRES_PASSWORD=yourpassword
+
+  web:
+    build: .
+    command: gunicorn notes_api.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_data:/app/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DEBUG=0
+      - DJANGO_ENVIRONMENT=production
+      - DATABASE_URL=postgres://notesapiuser:yourpassword@db:5432/notesapidb
+
+volumes:
+  postgres_data:
+  static_data:
