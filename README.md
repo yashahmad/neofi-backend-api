@@ -48,7 +48,7 @@ This project involves the development of a RESTful API for a note-taking applica
     docker-compose -f docker-compose.prod.yml up -d
 
     #4 run migrations for the first time
-    docker-compose -f docker-compose.prod.yml exec web python manage.py migrate
+    docker-compose -f docker-compose.prod.yml run web python manage.py migrate
 ```
 
 
